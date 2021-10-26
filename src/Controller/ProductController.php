@@ -9,13 +9,11 @@ use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProductController extends AbstractController
 {
@@ -66,16 +64,16 @@ class ProductController extends AbstractController
      */
     public function edit($id, ProductRepository $productRepository, Request $request, SluggerInterface $slugger, EntityManagerInterface $em) 
     {
+
         $product = $productRepository->find($id);
 
         $form = $this->createForm(ProductType::class, $product);
 
-
-        $formView = $form->createView();
+        
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted()){
+        if($form->isSubmitted() && $form->isValid()){
 
             $product->setSlug($slugger->slug($product->getName()));
 
@@ -86,6 +84,8 @@ class ProductController extends AbstractController
                 'slug' => $product->getSlug()
             ], 302);
         }
+
+        $formView = $form->createView();
 
         return $this->render('product/edit.html.twig', [
                 'formView' => $formView,
@@ -104,7 +104,7 @@ class ProductController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $product->setSlug(strtolower($slugger->slug($product->getName())));
 

@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ProductType extends AbstractType
 {
@@ -21,7 +22,7 @@ class ProductType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom du produit',
-                'attr' => ['placeholder' => 'Tapez le nom du produit']
+                'attr' => ['placeholder' => 'Tapez le nom du produit'],
             ])
             ->add('shortDescription', TextareaType::class, [
                 'label' => 'Description du produit',
@@ -51,27 +52,6 @@ class ProductType extends AbstractType
 
             
         $builder->get('price')->addModelTransformer(new CentimesTransformer);
-            
-
-        // $builder->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event){
-        //     $product = $event->getData();
-
-        //     if($product->getPrice !==null){
-        //         $product->setPrice($product->getPrice() * 100);
-        //     }
-        // });
-
-        // $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event){
-        //     $form = $event->getForm();
-
-        //     /** @var Product */
-        //     $product = $event->getData();
-
-        //     if($product->getPrice() !== null){
-
-        //         $product->setPrice($product->getPrice() / 100);
-        //     }
-        // });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

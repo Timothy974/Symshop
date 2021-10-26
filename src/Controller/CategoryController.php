@@ -14,6 +14,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CategoryController extends AbstractController
 {
+
     /**
      * @Route("/admin/category/create", name="category_create")
      */
@@ -25,7 +26,7 @@ class CategoryController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted()) {
+        if($form->isSubmitted() && $form->isValid()) {
 
             $category->setSlug(strtolower($slugger->slug($category->getName())));
 
@@ -35,8 +36,6 @@ class CategoryController extends AbstractController
             return $this->redirectToRoute('homepage', [], 302);
 
         }
-
-
 
         return $this->render('category/create.html.twig', [
             'formView' => $form->createView()
@@ -54,7 +53,7 @@ class CategoryController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted()) {
+        if($form->isSubmitted() && $form->isValid()) {
 
             $category->setSlug(strtolower($slugger->slug($category->getName())));
 

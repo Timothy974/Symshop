@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -19,11 +19,14 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le nom du produit est obligatoire")
+     * @Assert\Length(min=3, max=255, minMessage="Le nom du produit doit avoir au moins 3 caractères")
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Le prix du produit est obligatoire")
      */
     private $price;
 
@@ -39,11 +42,14 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url(message="La photo doit avoir une url valide")
+     * @Assert\NotBlank(message="La photo est obligatoire")
      */
     private $picture;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="La description est obligatoire")
      */
     private $shortDescription;
 
@@ -57,7 +63,7 @@ class Product
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -69,7 +75,7 @@ class Product
         return $this->price;
     }
 
-    public function setPrice(int $price): self
+    public function setPrice(?int $price): self
     {
         $this->price = $price;
 
@@ -105,7 +111,7 @@ class Product
         return $this->picture;
     }
 
-    public function setPicture(string $picture): self
+    public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
 
@@ -117,7 +123,7 @@ class Product
         return $this->shortDescription;
     }
 
-    public function setShortDescription(string $shortDescription): self
+    public function setShortDescription(?string $shortDescription): self
     {
         $this->shortDescription = $shortDescription;
 
