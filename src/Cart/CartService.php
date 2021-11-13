@@ -26,6 +26,11 @@ class CartService
       $this->session->set('cart', $cart);
    }
 
+   public function empty()
+   {
+      $this->saveCart([]);
+   }
+
    public function add($id)
    {
       $cart = $this->getCart();
@@ -83,6 +88,10 @@ class CartService
       $this->saveCart($cart);
    }
 
+   /**
+    *
+    * @return CartItem
+    */
    public function getDetailedCardItems()
    {
       $detailedCart = [];

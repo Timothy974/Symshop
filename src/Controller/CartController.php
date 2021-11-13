@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Cart\CartService;
+use App\Form\CartConfirmationType;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,12 +28,12 @@ class CartController extends AbstractController
     {
         $product = $this->productRepository->find($id);
 
-        if (!$product){
-            throw $this->createNotFoundException("Le produit ".$id. " n'existe pas");
+        if (!$product) {
+            throw $this->createNotFoundException("Le produit " . $id . " n'existe pas");
         }
 
         $this->cartService->add($id);
-        
+
         $this->addFlash('success', "Le produit à bien été ajouté au panier");
 
         if ($request->query->get('returnToCart')) {
@@ -49,7 +50,9 @@ class CartController extends AbstractController
      * @Route("/cart", name="cart_show")
      *
      */
-    public function show(){
+    public function show()
+    {
+        $form = $this->createForm(CartConfirmationType::class);
 
         $detailedCart = $this->cartService->getDetailedCardItems();
 
@@ -57,7 +60,8 @@ class CartController extends AbstractController
 
         return $this->render('cart/index.html.twig', [
             'items' => $detailedCart,
-            'total' =>$total
+            'total' => $total,
+            'confirmationForm' => $form->createView()
         ]);
     }
 
@@ -65,11 +69,12 @@ class CartController extends AbstractController
      * @Route("/cart/delete/{id}", name="cart_delete", requirements={"id": "\d+"})
      *
      */
-    public function delete($id){
+    public function delete($id)
+    {
 
         $product = $this->productRepository->find($id);
 
-        if(!$product){
+        if (!$product) {
             throw $this->createNotFoundException("Le produit $id n'existe pas et ne peut être supprimé");
         }
 
@@ -84,11 +89,12 @@ class CartController extends AbstractController
      * @Route("/cart/decrement/{id}", name="cart_decrement", requirements={"id": "\d+"})
      *
      */
-    public function decrement($id){
+    public function decrement($id)
+    {
 
         $product = $this->productRepository->find($id);
 
-        if(!$product){
+        if (!$product) {
             throw $this->createNotFoundException("Le produit $id n'existe pas et ne peut être retiré");
         }
 
