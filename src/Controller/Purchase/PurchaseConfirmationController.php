@@ -6,6 +6,7 @@ use DateTime;
 use App\Cart\CartService;
 use App\Entity\PurchaseItem;
 use App\Form\CartConfirmationType;
+use App\Purchase\PurchasePersister;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,11 +18,14 @@ class PurchaseConfirmationController extends AbstractController
 {
    protected $cartService;
    protected $em;
+   protected $persister;
 
-   public function __construct(EntityManagerInterface $em,  CartService $cartService)
+
+   public function __construct(EntityManagerInterface $em, CartService $cartService, PurchasePersister $persister)
    {
       $this->cartService = $cartService;
       $this->em = $em;
+      $this->persister = $persister;
    }
 
    /**
@@ -53,26 +57,7 @@ class PurchaseConfirmationController extends AbstractController
 
       $purchase = $form->getData();
 
-      $purchase->setUser($user)
-               ->setPurchasedAt(new DateTime())
-               ->setTotal($this->cartService->getTotal());
-      
-      $this->em->persist($purchase);
-
-      foreach ($this->cartService->getDetailedCardItems() as $cartItem) {
-
-         $purchaseItem = new PurchaseItem();
-         $purchaseItem->setPurchase($purchase)
-                     ->setProduct($cartItem->product)
-                     ->setProductName($cartItem->product->getName())
-                     ->setProductPrice($cartItem->product->getPrice())
-                     ->setQuantity($cartItem->qty)
-                     ->setTotal($cartItem->getTotal());
-
-         $this->em->persist($purchaseItem);
-      }
-
-      $this->em->flush();
+      $this->persister->storePurchase($purchase);
 
       $this->cartService->empty();
 
