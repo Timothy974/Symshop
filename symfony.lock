@@ -100,6 +100,15 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "easycorp/easyadmin-bundle": {
+        "version": "3.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "b131e6cbfe1b898a508987851963fff485986285"
+        }
+    },
     "egulias/email-validator": {
         "version": "2.1.25"
     },
@@ -150,6 +159,9 @@
     },
     "stripe/stripe-php": {
         "version": "v7.100.0"
+    },
+    "symfony/asset": {
+        "version": "v5.1.11"
     },
     "symfony/cache": {
         "version": "v5.1.11"
@@ -324,6 +336,9 @@
     "symfony/polyfill-php80": {
         "version": "v1.23.1"
     },
+    "symfony/polyfill-uuid": {
+        "version": "v1.24.0"
+    },
     "symfony/property-access": {
         "version": "v5.1.11"
     },
@@ -380,6 +395,19 @@
     "symfony/string": {
         "version": "v5.1.11"
     },
+    "symfony/translation": {
+        "version": "5.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "2ad9d2545bce8ca1a863e50e92141f0b9d87ffcd"
+        },
+        "files": [
+            "./config/packages/translation.yaml",
+            "./translations/.gitignore"
+        ]
+    },
     "symfony/translation-contracts": {
         "version": "v2.4.0"
     },
@@ -399,6 +427,9 @@
             "./config/packages/twig.yaml",
             "./templates/base.html.twig"
         ]
+    },
+    "symfony/uid": {
+        "version": "v5.1.11"
     },
     "symfony/validator": {
         "version": "5.1",
