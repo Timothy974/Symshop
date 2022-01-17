@@ -8,3 +8,6 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+/public/uploads/images/*
+!/public/uploads/images/placeholder.jpg
+

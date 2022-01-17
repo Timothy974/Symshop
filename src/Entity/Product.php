@@ -2,13 +2,23 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Category;
+use App\Entity\PurchaseItem;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProductRepository;
+use DateTime;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
+use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
+
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @Vich\Uploadable
  */
 class Product
 {
@@ -42,12 +52,20 @@ class Product
      */
     private $category;
 
+    //@Assert\Url(message="La photo doit avoir une url valide")
+    //@Assert\NotBlank(message="La photo est obligatoire")
+
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Url(message="La photo doit avoir une url valide")
-     * @Assert\NotBlank(message="La photo est obligatoire")
+     * 
      */
     private $picture;
+
+    /**
+     * @Vich\UploadableField(mapping="product_picture", fileNameProperty="picture")
+     * @var File
+     */
+    private $pictureFile;
 
     /**
      * @ORM\Column(type="text")
@@ -170,5 +188,29 @@ class Product
         }
 
         return $this;
+    } 
+
+    /**
+     * Get the value of pictureFile
+     * @return File/null
+     *
+     */ 
+    public function getPictureFile(): ?File
+    {
+        return $this->pictureFile;
     }
+
+    /**
+     * Set the value of pictureFile
+     *
+     * @param  File  $pictureFile
+     *
+     */ 
+    public function setPictureFile(File $pictureFile = null)
+    {
+        $this->pictureFile = $pictureFile;
+
+        //return $this;
+    }
+
 }

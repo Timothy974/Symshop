@@ -34,6 +34,13 @@
 						<a href="{{path('security_login')}}" class="btn btn-success">Login</a>
 					</li>
 				{% endif %}
+				
+					{% if is_granted('ROLE_ADMIN')  %}
+					<li class="nav-item">
+						<a href="{{path('admin')}}" class="btn btn-success">Admin</a>
+					</li>
+					{% endif %}
+			
 
 			</ul>
 		</div>
