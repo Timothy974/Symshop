@@ -31,7 +31,6 @@ class ProductCrudController extends AbstractCrudController
             ImageField::new('picture')->setBasePath('/uploads/images')->onlyOnIndex(),
             TextField::new('shortDescription', 'Description'),
             AssociationField::new('category', 'Catégorie')
-
         ];
     }
     

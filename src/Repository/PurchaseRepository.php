@@ -19,6 +19,15 @@ class PurchaseRepository extends ServiceEntityRepository
         parent::__construct($registry, Purchase::class);
     }
 
+    public function countByDate() {
+        $query = $this->createQueryBuilder('p')
+                        ->select('SUBSTRING(p.purchasedAt, 1, 10) as purchaseDate, COUNT(p) as count')
+                        ->groupBy('purchaseDate');
+        
+                        return $query->getQuery()->getResult();
+
+    }
+
     // /**
     //  * @return Purchase[] Returns an array of Purchase objects
     //  */

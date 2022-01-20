@@ -1,8 +1,15 @@
 {# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
-{% block content_title 'Welcome to EasyAdmin 3' %}
+{% block content_title 'Bienvenue dans votre espace administration' %}
+
 
 {% block main %}
 
+
+{% include "shared/_adminGraph.html.twig" %}
+
+
 {% endblock %}
+
+
